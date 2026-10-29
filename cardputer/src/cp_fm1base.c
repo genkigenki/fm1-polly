@@ -191,8 +191,11 @@ static int ann_wire_send(const uint8_t *p, uint32_t n) { (void)p, (void)n; retur
 #undef __attribute__
 
 /* ------------------------------------------- what the main (C++) calls --- */
+extern char _cp_pool_start[], _cp_pool_end[];   /* cp_pool.ld: the .pool buffers, in RAM but not zeroed by the startup */
+
 void fm1b_boot(void)
 {
+    memset(_cp_pool_start, 0, (size_t)(_cp_pool_end - _cp_pool_start));
     palette_set(APP_PALETTE);
     app_init();
     lcd_fill(0, 0, 240, 240, 0);
