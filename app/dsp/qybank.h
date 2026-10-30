@@ -48,15 +48,26 @@
 #define QB_MAGIC 0x31425150u             /* "PQB1" */
 #define QB_VERSION 1u
 #define QB_CODEC 0x33425951u             /* "QYB3" (a bank of another codec: QB_OLD, install it again) */
+/* a board without the data area (no bank can be installed) may pass smaller sizes */
+#ifndef QB_MAXSTYLES
 #define QB_MAXSTYLES 128
+#endif
 #define QB_DIR_HEAD 32u
 #define QB_DIR_ENTRY 24u
 #define QB_DIR_BYTES(n) (QB_DIR_HEAD + QB_DIR_ENTRY * (uint32_t)(n) + 4u)
 #define QB_PRIORS ((QY_NPRIOR + 1) / 2)  /* the priors' bytes (4 bits each) */
+#ifndef QB_RECMAX
 #define QB_RECMAX 8192u                  /* a style's record (header and stream), at most */
+#endif
+#ifndef QB_MAXN
 #define QB_MAXN 2560                     /* a decoded style's notes (the ROM's largest: 2,259) */
+#endif
+#ifndef QB_MAXC
 #define QB_MAXC 4096                     /* its controller events (1,585; room for more kinds) */
+#endif
+#ifndef QB_MAXPH
 #define QB_MAXPH 64                      /* its phrases (46) */
+#endif
 _Static_assert(QB_DIR_BYTES(QB_MAXSTYLES) <= QB_GUARD, "the directory ends before the sector's guard bytes");
 
 /* flash sector i (0..QB_NSECT-1) of the data, and a logical offset's flash offset (QB_CAPACITY: none, 0) */
